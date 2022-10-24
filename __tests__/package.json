@@ -1,18 +1,9 @@
 {
-  "name": "tests",
-  "version": "1.0.0",
-  "description": "tests project",
-  "main": "todo.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node todo.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "http": "^0.0.1-security",
-    "minimist": "^1.2.6",
-    "process": "^0.11.10"
+    "jest": "^29.0.2"
+  },
+  "scripts": {
+    "test": "jest --json --outputFile=results.json"
   }
 }
+
