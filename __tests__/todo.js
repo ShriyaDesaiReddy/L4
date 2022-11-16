@@ -8,9 +8,7 @@ describe("Todo List",()=>{
       {
         title:"Buy Bread",
         completed:false,
-        dueDate:new Date(today.getTime()-2*oneDay).toLocaleDateString(
-          "en-CA"
-        ),
+        dueDate:new Date(today.getTime()-2*oneDay).toLocaleDateString("en-CA"),
       },
       {
         title:"Pay Mobile bill",
@@ -20,9 +18,7 @@ describe("Todo List",()=>{
       {
         title:"Write assignment",
         completed:false,
-        dueDate:new Date(today.getTime()+2*oneDay).toLocaleDateString(
-          "en-CA"
-        ),
+        dueDate:new Date(today.getTime()+2*oneDay).toLocaleDateString("en-CA"),
       },
     ].forEach(add);
   });
@@ -33,25 +29,20 @@ describe("Todo List",()=>{
       completed:false,
       dueDate:new Date().toLocaleDateString("en-CA"),
     });
-
-    expect(all.length).toEqual(4);
+   expect(all.length).toEqual(4);
   });
-
-  test("Should mark a todo as complete", () => {
+  test("Should mark a todo as complete",()=>{
     expect(all[0].completed).toEqual(false);
     markAsComplete(0);
     expect(all[0].completed).toEqual(true);
   });
-
-  test("Should retrieve overdue items", () => {
+test("Should retrieve overdue items",()=>{
     expect(overdue().length).toEqual(1);
   });
-
-  test("Should retrieve due today items", () => {
+test("Should retrieve due today items",()=>{
     expect(dueToday().length).toEqual(2);
   });
-
-  test("Should retrieve due later items", () => {
+test("Should retrieve due later items",()=>{
     expect(dueLater().length).toEqual(1);
   });
 });
