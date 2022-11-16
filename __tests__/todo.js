@@ -1,58 +1,60 @@
-const todo=require("../todo");
-const today=new Date().toLocaleDateString("en-CA");
-const {all,add,markAsComplete,overdue,dueToday,dueLater} = todo();
-var d=new Date();
-var yesterday=new Date(d);
-yesterday.setDate(d.getDate()+1);
-var tommorow=new Date(d);
-tommorow.setDate(d.getDate()+1);
- 
-describe("TODO test", ()=>{
-  beforeAll(()=>{
-    add({
-      title: "Web development",
-      dueDate: new Date().toLocaleDateString("en-CA"),
-      completed: false,
-    });
-  });
-  test("Add task",()=>{
-    let len=all.length;
-    add({
-      title: "NODE",
-      dueDate: new Date().toLocaleDateString("en-CA"),
-      completed: false,
-    });
-    expect(all.length).toBe(len+1);
-  });
-  test("Mark task as complete", () => {
-    expect(all[0].completed).toBe(false);
-    markAsComplete(0);
-    expect(all[0].completed).toBe(true);
-  });
-  test("Over due",()=>{  
-    let l = overdue();
+let todoList = require("../todo");
 
-    expect(
-      l.every((t) => {
-        return t.dueDate < today;
-      })
-    ).toBe(true);
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+/* eslint-disable no-undef */
+describe("Todo List", () => {
+  beforeAll(() => {
+    const today = new Date();
+    const oneDay = 60 * 60 * 24 * 1000;
+    [
+      {
+        title: "Buy Bread",
+        completed: false,
+        dueDate: new Date(today.getTime() - 2 * oneDay).toLocaleDateString(
+          "en-CA"
+        ),
+      },
+      {
+        title: "Pay Mobile bill",
+        completed: false,
+        dueDate: new Date().toLocaleDateString("en-CA"),
+      },
+      {
+        title: "Write assignment",
+        completed: false,
+        dueDate: new Date(today.getTime() + 2 * oneDay).toLocaleDateString(
+          "en-CA"
+        ),
+      },
+    ].forEach(add);
   });
-  test("Due today",()=>{
-    let l=dueToday();
-    expect(
-      l.every((t)=>{
-        return t.dueDate === today;
-      })
-    ).toBe(true);
-  });
-  test("Due later",()=>{
-    let len=dueLater().length;
+  test("Should add a new todo", () => {
+    expect(all.length).toEqual(3);
+
     add({
-      title: "VS",
-      dueDate: tommorow.toLocaleDateString("en-CA"),
+      title: "Do test item",
       completed: false,
+      dueDate: new Date().toLocaleDateString("en-CA"),
     });
-    expect(dueLater().length).toBe(len+ 1);
+
+    expect(all.length).toEqual(4);
+  });
+
+  test("Should mark a todo as complete", () => {
+    expect(all[0].completed).toEqual(false);
+    markAsComplete(0);
+    expect(all[0].completed).toEqual(true);
+  });
+
+  test("Should retrieve overdue items", () => {
+    expect(overdue().length).toEqual(1);
+  });
+
+  test("Should retrieve due today items", () => {
+    expect(dueToday().length).toEqual(2);
+  });
+
+  test("Should retrieve due later items", () => {
+    expect(dueLater().length).toEqual(1);
   });
 });
